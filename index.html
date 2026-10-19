@@ -23,7 +23,7 @@
                 <p class="text-xs text-slate-500">Portal Akses Staf Multi-Divisi</p>
             </div>
 
-            <div class="space-y-3 text-xs">
+            <form onsubmit="prosesLogin(event)" class="space-y-3 text-xs">
                 <div>
                     <label class="block font-medium text-slate-600 mb-1">Pilih Divisi</label>
                     <select id="loginDivisi" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-500 font-medium">
@@ -35,17 +35,17 @@
                 </div>
                 <div>
                     <label class="block font-medium text-slate-600 mb-1">Nama Staf</label>
-                    <input type="text" id="loginNama" placeholder="Masukkan nama Anda" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-500">
+                    <input type="text" id="loginNama" placeholder="Masukkan nama Anda" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-500">
                 </div>
                 <div>
                     <label class="block font-medium text-slate-600 mb-1">PIN Keamanan</label>
-                    <input type="password" id="loginPIN" placeholder="PIN Keamanan" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-500">
+                    <input type="password" id="loginPIN" placeholder="PIN Keamanan" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-500">
                     <p class="text-[10px] text-slate-400 mt-1">*PIN Default: 1234</p>
                 </div>
-                <button type="button" onclick="prosesLogin()" id="btnLoginSubmit" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-semibold py-3 rounded-xl transition shadow-sm text-xs cursor-pointer">
+                <button type="submit" id="btnLoginSubmit" class="w-full bg-emerald-800 hover:bg-emerald-900 active:bg-emerald-950 text-white font-semibold py-3 rounded-xl transition shadow-sm text-xs cursor-pointer">
                     Masuk ke Beranda
                 </button>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -287,18 +287,20 @@
 
         let loggedUser = null;
 
-        function prosesLogin() {
+        function prosesLogin(event) {
+            if (event) event.preventDefault();
+
             const divisi = document.getElementById('loginDivisi').value;
             const nama = document.getElementById('loginNama').value.trim();
             const pin = document.getElementById('loginPIN').value.trim();
 
             if (!nama) {
                 alert('Masukkan nama staf terlebih dahulu!');
-                return;
+                return false;
             }
             if (pin !== '1234') {
-                alert('PIN Keamanan Salah! (Default: 1234)');
-                return;
+                alert('PIN Keamanan Salah! (PIN Default: 1234)');
+                return false;
             }
 
             loggedUser = { nama: nama, divisi: divisi };
@@ -313,6 +315,7 @@
             document.getElementById('profilDivisi').innerText = 'Divisi ' + divisi;
 
             loadRealtimeLaporan();
+            return false;
         }
 
         function prosesLogout() {
@@ -327,8 +330,4 @@
         function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.nav-btn').forEach(el => {
-                el.classList.remove('text-emerald-700', 'font-semibold');
-                el.classList.add('text-slate-400');
-            });
-
-            documen
+                el.
